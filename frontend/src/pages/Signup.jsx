@@ -140,16 +140,8 @@ const Signup = () => {
               <label htmlFor="role" className="sr-only">
                 Role
               </label>
-              <select
-                id="role"
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                className="appearance-none rounded-b-md relative block w-full px-3 py-3 border border-gray-700 placeholder-gray-500 text-white bg-gray-800 focus:outline-none focus:ring-amber-500 focus:border-amber-500 focus:z-10 sm:text-sm"
-              >
-                <option value="driver">Driver</option>
-                <option value="admin">Admin</option>
-              </select>
+              <input type="hidden" name="role" value="Driver" />
+
             </div>
           </div>
 

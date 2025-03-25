@@ -1,44 +1,49 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef } from "react"
-import { useParams, useNavigate } from "react-router-dom"
-import Layout from "../components/Layout"
-import { useAuth } from "../context/AuthContext"
-import axios from "axios"
+import { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import Layout from "../components/Layout";
+import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 
 const TripDetails = () => {
-  const { id } = useParams()
-  const { currentUser, isAdmin } = useAuth()
-  const navigate = useNavigate()
-  const [trip, setTrip] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState("")
-  const mapRef = useRef(null)
-  const [waypoints, setWaypoints] = useState([])
+  const { id } = useParams();
+  const { currentUser, isAdmin } = useAuth();
+  const navigate = useNavigate();
+  const [trip, setTrip] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const mapRef = useRef(null);
+  const [waypoints, setWaypoints] = useState([]);
 
   useEffect(() => {
     const fetchTripDetails = async () => {
       try {
         const response = await axios.get(`/api/trips/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        })
-        setTrip(response.data)
+        });
+        setTrip(response.data);
 
         // Fetch waypoints
-        const waypointsResponse = await axios.get(`/api/trips/${id}/waypoints`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        })
-        setWaypoints(waypointsResponse.data)
+        const waypointsResponse = await axios.get(
+          `/api/trips/${id}/waypoints`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        setWaypoints(waypointsResponse.data);
       } catch (error) {
-        console.error("Error fetching trip details:", error)
-        setError("Failed to load trip details")
+        console.error("Error fetching trip details:", error);
+        setError("Failed to load trip details");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchTripDetails()
-  }, [id])
+    fetchTripDetails();
+  }, [id]);
 
   const handleCompleteTrip = async () => {
     try {
@@ -47,34 +52,34 @@ const TripDetails = () => {
         {},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        },
-      )
-      setTrip((prev) => ({ ...prev, status: "completed" }))
+        }
+      );
+      setTrip((prev) => ({ ...prev, status: "completed" }));
     } catch (error) {
-      console.error("Error completing trip:", error)
-      setError("Failed to complete trip")
+      console.error("Error completing trip:", error);
+      setError("Failed to complete trip");
     }
-  }
+  };
 
   const handleDownloadPDF = async () => {
     try {
       const response = await axios.get(`/api/trips/${id}/pdf`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         responseType: "blob",
-      })
+      });
 
-      const url = window.URL.createObjectURL(new Blob([response.data]))
-      const link = document.createElement("a")
-      link.href = url
-      link.setAttribute("download", `trip-${id}.pdf`)
-      document.body.appendChild(link)
-      link.click()
-      link.remove()
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `trip-${id}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
     } catch (error) {
-      console.error("Error downloading PDF:", error)
-      setError("Failed to download PDF")
+      console.error("Error downloading PDF:", error);
+      setError("Failed to download PDF");
     }
-  }
+  };
 
   if (loading) {
     return (
@@ -89,17 +94,20 @@ const TripDetails = () => {
           </div>
         </div>
       </Layout>
-    )
+    );
   }
 
   if (error) {
     return (
       <Layout>
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+          role="alert"
+        >
           <span className="block sm:inline">{error}</span>
         </div>
       </Layout>
-    )
+    );
   }
 
   if (!trip) {
@@ -115,7 +123,7 @@ const TripDetails = () => {
           </button>
         </div>
       </Layout>
-    )
+    );
   }
 
   return (
@@ -164,7 +172,9 @@ const TripDetails = () => {
 
           <div className="mt-6 bg-black border border-gray-800 rounded-lg shadow-lg overflow-hidden">
             <div className="p-4 border-b border-gray-800">
-              <h2 className="text-lg font-semibold text-white">Trip Timeline</h2>
+              <h2 className="text-lg font-semibold text-white">
+                Trip Timeline
+              </h2>
             </div>
             <div className="p-4">
               <div className="relative">
@@ -172,19 +182,25 @@ const TripDetails = () => {
                   <div key={index} className="mb-8 flex">
                     <div className="flex flex-col items-center mr-4">
                       <div className="w-3 h-3 bg-amber-500 rounded-full z-10"></div>
-                      {index < waypoints.length - 1 && <div className="h-full w-0.5 bg-gray-700"></div>}
+                      {index < waypoints.length - 1 && (
+                        <div className="h-full w-0.5 bg-gray-700"></div>
+                      )}
                     </div>
                     <div className="bg-gray-800 p-4 rounded-lg flex-1">
                       <div className="flex justify-between items-start">
                         <div>
                           <h3 className="text-white font-medium">
-                            {waypoint.stop_type.charAt(0).toUpperCase() + waypoint.stop_type.slice(1)} Stop
+                            {waypoint.stop_type.charAt(0).toUpperCase() +
+                              waypoint.stop_type.slice(1)}{" "}
+                            Stop
                           </h3>
                           <p className="text-gray-400 text-sm">
                             Lat: {waypoint.latitude}, Long: {waypoint.longitude}
                           </p>
                         </div>
-                        <span className="text-gray-400 text-sm">{new Date(waypoint.timestamp).toLocaleString()}</span>
+                        <span className="text-gray-400 text-sm">
+                          {new Date(waypoint.timestamp).toLocaleString()}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -197,7 +213,9 @@ const TripDetails = () => {
         <div className="space-y-6">
           <div className="bg-black border border-gray-800 rounded-lg shadow-lg overflow-hidden">
             <div className="p-4 border-b border-gray-800">
-              <h2 className="text-lg font-semibold text-white">Trip Information</h2>
+              <h2 className="text-lg font-semibold text-white">
+                Trip Information
+              </h2>
             </div>
             <div className="p-4">
               <div className="space-y-4">
@@ -206,36 +224,51 @@ const TripDetails = () => {
                   <p className="text-white font-medium">
                     <span
                       className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        trip.status === "completed" ? "bg-green-100 text-green-800" : "bg-amber-100 text-amber-800"
+                        trip.status === "completed"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-amber-100 text-amber-800"
                       }`}
                     >
-                      {trip.status.charAt(0).toUpperCase() + trip.status.slice(1)}
+                      {trip.status.charAt(0).toUpperCase() +
+                        trip.status.slice(1)}
                     </span>
                   </p>
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Pickup Location</p>
-                  <p className="text-white font-medium">{trip.pickup_location}</p>
+                  <p className="text-white font-medium">
+                    {trip.pickup_location}
+                  </p>
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Dropoff Location</p>
-                  <p className="text-white font-medium">{trip.dropoff_location}</p>
+                  <p className="text-white font-medium">
+                    {trip.dropoff_location}
+                  </p>
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Start Time</p>
-                  <p className="text-white font-medium">{new Date(trip.start_time).toLocaleString()}</p>
+                  <p className="text-white font-medium">
+                    {new Date(trip.start_time).toLocaleString()}
+                  </p>
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Estimated End Time</p>
-                  <p className="text-white font-medium">{new Date(trip.estimated_end_time).toLocaleString()}</p>
+                  <p className="text-white font-medium">
+                    {new Date(trip.estimated_end_time).toLocaleString()}
+                  </p>
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Distance</p>
-                  <p className="text-white font-medium">{trip.distance} miles</p>
+                  <p className="text-white font-medium">
+                    {trip.distance} miles
+                  </p>
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Cycle Hours Used</p>
-                  <p className="text-white font-medium">{trip.cycle_hours_used} hours</p>
+                  <p className="text-white font-medium">
+                    {trip.cycle_hours_used} hours
+                  </p>
                 </div>
               </div>
             </div>
@@ -243,21 +276,29 @@ const TripDetails = () => {
 
           <div className="bg-black border border-gray-800 rounded-lg shadow-lg overflow-hidden">
             <div className="p-4 border-b border-gray-800">
-              <h2 className="text-lg font-semibold text-white">Vehicle Information</h2>
+              <h2 className="text-lg font-semibold text-white">
+                Vehicle Information
+              </h2>
             </div>
             <div className="p-4">
               <div className="space-y-4">
                 <div>
                   <p className="text-gray-400 text-sm">Truck Number</p>
-                  <p className="text-white font-medium">{trip.vehicle?.truck_number || "N/A"}</p>
+                  <p className="text-white font-medium">
+                    {trip.vehicle?.truck_number || "N/A"}
+                  </p>
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Trailer Number</p>
-                  <p className="text-white font-medium">{trip.vehicle?.trailer_number || "N/A"}</p>
+                  <p className="text-white font-medium">
+                    {trip.vehicle?.trailer_number || "N/A"}
+                  </p>
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Fuel Efficiency</p>
-                  <p className="text-white font-medium">{trip.vehicle?.fuel_efficiency || "N/A"} mpg</p>
+                  <p className="text-white font-medium">
+                    {trip.vehicle?.fuel_efficiency || "N/A"} mpg
+                  </p>
                 </div>
               </div>
             </div>
@@ -265,22 +306,29 @@ const TripDetails = () => {
 
           <div className="bg-black border border-gray-800 rounded-lg shadow-lg overflow-hidden">
             <div className="p-4 border-b border-gray-800">
-              <h2 className="text-lg font-semibold text-white">Driver Information</h2>
+              <h2 className="text-lg font-semibold text-white">
+                Driver Information
+              </h2>
             </div>
             <div className="p-4">
               <div className="space-y-4">
                 <div>
                   <p className="text-gray-400 text-sm">Driver Name</p>
-                  <p className="text-white font-medium">{trip.driver?.full_name || "N/A"}</p>
+                  <p className="text-white font-medium">
+                    {trip.driver?.full_name || "N/A"}
+                  </p>
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Current Cycle</p>
-                  <p className="text-white font-medium">{trip.driver?.current_cycle?.cycle_type || "N/A"}</p>
+                  <p className="text-white font-medium">
+                    {trip.driver?.current_cycle?.cycle_type || "N/A"}
+                  </p>
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Total Hours Used</p>
                   <p className="text-white font-medium">
-                    {trip.driver?.current_cycle?.total_hours_used || "N/A"} hours
+                    {trip.driver?.current_cycle?.total_hours_used || "N/A"}{" "}
+                    hours
                   </p>
                 </div>
               </div>
@@ -289,8 +337,7 @@ const TripDetails = () => {
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default TripDetails
-
+export default TripDetails;

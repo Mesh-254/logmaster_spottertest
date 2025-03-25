@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Link, useLocation } from "react-router-dom"
-import { useAuth } from "../context/AuthContext"
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 // Icons
 const DashboardIcon = () => (
@@ -21,7 +21,7 @@ const DashboardIcon = () => (
     <rect x="14" y="12" width="7" height="9" />
     <rect x="3" y="16" width="7" height="5" />
   </svg>
-)
+);
 
 const TripIcon = () => (
   <svg
@@ -39,7 +39,7 @@ const TripIcon = () => (
     <path d="M3 9l2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9" />
     <path d="M12 3v6" />
   </svg>
-)
+);
 
 const LogIcon = () => (
   <svg
@@ -58,7 +58,7 @@ const LogIcon = () => (
     <path d="M16 17H8" />
     <path d="M10 9H8" />
   </svg>
-)
+);
 
 const ProfileIcon = () => (
   <svg
@@ -74,7 +74,7 @@ const ProfileIcon = () => (
     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
     <circle cx="12" cy="7" r="4" />
   </svg>
-)
+);
 
 const LogoutIcon = () => (
   <svg
@@ -91,7 +91,7 @@ const LogoutIcon = () => (
     <polyline points="16 17 21 12 16 7" />
     <line x1="21" y1="12" x2="9" y2="12" />
   </svg>
-)
+);
 
 const CreateTripIcon = () => (
   <svg
@@ -108,7 +108,7 @@ const CreateTripIcon = () => (
     <line x1="12" y1="8" x2="12" y2="16" />
     <line x1="8" y1="12" x2="16" y2="12" />
   </svg>
-)
+);
 
 const UsersIcon = () => (
   <svg
@@ -126,48 +126,85 @@ const UsersIcon = () => (
     <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
     <path d="M16 3.13a4 4 0 0 1 0 7.75" />
   </svg>
-)
+);
 
-const Sidebar = ({ onStateChange }) => {
-  const [collapsed, setCollapsed] = useState(false)
-  const { currentUser, logout, isAdmin } = useAuth()
-  const location = useLocation()
+const Sidebar = ({ onStateChange, onMobileMenuClose }) => {
+  const [collapsed, setCollapsed] = useState(false);
+  const { currentUser, logout, isAdmin } = useAuth();
+  const location = useLocation();
 
   const toggleSidebar = () => {
-    const newState = !collapsed
-    setCollapsed(newState)
+    const newState = !collapsed;
+    setCollapsed(newState);
     if (onStateChange) {
-      onStateChange(newState)
+      onStateChange(newState);
     }
-  }
+  };
+
+  // Function to handle link clicks on mobile
+  const handleLinkClick = () => {
+    if (window.innerWidth < 768 && onMobileMenuClose) {
+      onMobileMenuClose();
+    }
+  };
 
   // Notify parent component of sidebar state changes
   useEffect(() => {
     if (onStateChange) {
-      onStateChange(collapsed)
+      onStateChange(collapsed);
     }
-  }, [collapsed, onStateChange])
+  }, [collapsed, onStateChange]);
 
   const isActive = (path) => {
-    return location.pathname === path ? "bg-amber-700" : ""
-  }
+    return location.pathname === path ? "bg-amber-700" : "";
+  };
 
   return (
     <div
-      className={`${collapsed ? "w-20" : "w-64"} fixed h-full bg-black text-white transition-all duration-300 ease-in-out z-10`}
+      className={`${
+        collapsed ? "w-20" : "w-64"
+      } fixed h-full bg-black text-white transition-all duration-300 ease-in-out z-10`}
     >
       <div className="flex items-center justify-between p-4 border-b border-gray-800">
-        {!collapsed && <h1 className="text-xl font-bold text-amber-500">FastTip</h1>}
-        <button onClick={toggleSidebar} className="p-2 rounded-md hover:bg-gray-800 text-amber-500">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
+        {!collapsed && (
+          <h1 className="text-xl font-bold text-amber-500">FastTip</h1>
+        )}
+        <button
+          onClick={toggleSidebar}
+          className="p-2 rounded-md hover:bg-gray-800 text-amber-500 transition-colors"
+          aria-label="Toggle sidebar"
+        >
+          {collapsed ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 5l7 7-7 7M5 5l7 7-7 7"
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+              />
+            </svg>
+          )}
         </button>
       </div>
 
@@ -176,7 +213,9 @@ const Sidebar = ({ onStateChange }) => {
           {!collapsed ? (
             <div>
               <p className="text-sm text-gray-400">Welcome,</p>
-              <p className="font-semibold text-amber-500">{currentUser?.full_name}</p>
+              <p className="font-semibold text-amber-500">
+                {currentUser?.full_name}
+              </p>
               <p className="text-xs text-gray-400">{currentUser?.role}</p>
             </div>
           ) : (
@@ -190,7 +229,13 @@ const Sidebar = ({ onStateChange }) => {
 
         <ul className="space-y-2">
           <li>
-            <Link to="/" className={`flex items-center px-4 py-3 hover:bg-gray-800 transition-colors ${isActive("/")}`}>
+            <Link
+              to="/"
+              className={`flex items-center px-4 py-3 hover:bg-gray-800 hover:text-amber-500 transition-colors ${isActive(
+                "/"
+              )}`}
+              onClick={handleLinkClick}
+            >
               <DashboardIcon />
               {!collapsed && <span className="ml-3">Dashboard</span>}
             </Link>
@@ -198,7 +243,10 @@ const Sidebar = ({ onStateChange }) => {
           <li>
             <Link
               to="/trips"
-              className={`flex items-center px-4 py-3 hover:bg-gray-800 transition-colors ${isActive("/trips")}`}
+              className={`flex items-center px-4 py-3 hover:bg-gray-800 hover:text-amber-500 transition-colors ${isActive(
+                "/trips"
+              )}`}
+              onClick={handleLinkClick}
             >
               <TripIcon />
               {!collapsed && <span className="ml-3">Trips</span>}
@@ -208,7 +256,10 @@ const Sidebar = ({ onStateChange }) => {
             <li>
               <Link
                 to="/trips/create"
-                className={`flex items-center px-4 py-3 hover:bg-gray-800 transition-colors ${isActive("/trips/create")}`}
+                className={`flex items-center px-4 py-3 hover:bg-gray-800 hover:text-amber-500 transition-colors ${isActive(
+                  "/trips/create"
+                )}`}
+                onClick={handleLinkClick}
               >
                 <CreateTripIcon />
                 {!collapsed && <span className="ml-3">Create Trip</span>}
@@ -218,7 +269,10 @@ const Sidebar = ({ onStateChange }) => {
           <li>
             <Link
               to="/logs"
-              className={`flex items-center px-4 py-3 hover:bg-gray-800 transition-colors ${isActive("/logs")}`}
+              className={`flex items-center px-4 py-3 hover:bg-gray-800 hover:text-amber-500 transition-colors ${isActive(
+                "/logs"
+              )}`}
+              onClick={handleLinkClick}
             >
               <LogIcon />
               {!collapsed && <span className="ml-3">Logs</span>}
@@ -228,7 +282,10 @@ const Sidebar = ({ onStateChange }) => {
             <li>
               <Link
                 to="/users"
-                className={`flex items-center px-4 py-3 hover:bg-gray-800 transition-colors ${isActive("/users")}`}
+                className={`flex items-center px-4 py-3 hover:bg-gray-800 hover:text-amber-500 transition-colors ${isActive(
+                  "/users"
+                )}`}
+                onClick={handleLinkClick}
               >
                 <UsersIcon />
                 {!collapsed && <span className="ml-3">Users</span>}
@@ -238,7 +295,10 @@ const Sidebar = ({ onStateChange }) => {
           <li>
             <Link
               to="/profile"
-              className={`flex items-center px-4 py-3 hover:bg-gray-800 transition-colors ${isActive("/profile")}`}
+              className={`flex items-center px-4 py-3 hover:bg-gray-800 hover:text-amber-500 transition-colors ${isActive(
+                "/profile"
+              )}`}
+              onClick={handleLinkClick}
             >
               <ProfileIcon />
               {!collapsed && <span className="ml-3">Profile</span>}
@@ -246,8 +306,11 @@ const Sidebar = ({ onStateChange }) => {
           </li>
           <li>
             <button
-              onClick={logout}
-              className="w-full flex items-center px-4 py-3 hover:bg-gray-800 transition-colors text-left"
+              onClick={() => {
+                logout();
+                handleLinkClick();
+              }}
+              className="w-full flex items-center px-4 py-3 hover:bg-gray-800 hover:text-amber-500 transition-colors text-left"
             >
               <LogoutIcon />
               {!collapsed && <span className="ml-3">Logout</span>}
@@ -256,8 +319,7 @@ const Sidebar = ({ onStateChange }) => {
         </ul>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
-
+export default Sidebar;

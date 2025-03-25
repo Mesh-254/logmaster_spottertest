@@ -1,48 +1,41 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { useAuth } from "../context/AuthContext"
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const { login } = useAuth();
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
+  const { login } = useAuth()
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+    e.preventDefault()
+    setError("")
+    setLoading(true)
 
     try {
-      await login(email, password);
-      navigate("/");
+      await login(email, password)
+      navigate("/")
     } catch (error) {
-      setError(error.message);
+      setError(error.message)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-black p-10 rounded-xl shadow-lg border border-gray-800">
+      <div className="max-w-md w-full space-y-8 bg-black p-6 sm:p-10 rounded-xl shadow-lg border border-gray-800">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-amber-500">
-            FastTip
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-400">
-            Sign in to your account
-          </p>
+          <h2 className="mt-6 text-center text-2xl sm:text-3xl font-extrabold text-amber-500">FastTip</h2>
+          <p className="mt-2 text-center text-sm text-gray-400">Sign in to your account</p>
         </div>
         {error && (
-          <div
-            className="bg-red-900/30 border border-red-500 text-red-400 px-4 py-3 rounded relative"
-            role="alert"
-          >
+          <div className="bg-red-900/30 border border-red-500 text-red-400 px-4 py-3 rounded relative" role="alert">
             <span className="block sm:inline">{error}</span>
           </div>
         )}
@@ -90,19 +83,13 @@ const Login = () => {
                 type="checkbox"
                 className="h-4 w-4 text-amber-500 focus:ring-amber-500 border-gray-700 rounded bg-gray-800"
               />
-              <label
-                htmlFor="remember-me"
-                className="ml-2 block text-sm text-gray-400"
-              >
+              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-400">
                 Remember me
               </label>
             </div>
 
             <div className="text-sm">
-              <a
-                href="#"
-                className="font-medium text-amber-500 hover:text-amber-400"
-              >
+              <a href="#" className="font-medium text-amber-500 hover:text-amber-400">
                 Forgot your password?
               </a>
             </div>
@@ -112,7 +99,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-amber-500 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-amber-500 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/30"
             >
               {loading ? "Signing in..." : "Sign in"}
             </button>
@@ -121,17 +108,15 @@ const Login = () => {
         <div className="text-center mt-4">
           <p className="text-sm text-gray-400">
             Don't have an account?{" "}
-            <Link
-              to="/signup"
-              className="font-medium text-amber-500 hover:text-amber-400"
-            >
+            <Link to="/signup" className="font-medium text-amber-500 hover:text-amber-400">
               Sign up
             </Link>
           </p>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
+

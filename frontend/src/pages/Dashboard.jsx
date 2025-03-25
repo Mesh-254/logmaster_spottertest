@@ -42,12 +42,12 @@ const Dashboard = () => {
   }, [])
 
   const StatCard = ({ title, value, icon, color }) => (
-    <div className="bg-black border border-gray-800 rounded-lg p-6 shadow-lg">
+    <div className="bg-black border border-gray-800 rounded-lg p-4 md:p-6 shadow-lg hover:border-amber-500 transition-all duration-200 transform hover:-translate-y-1">
       <div className="flex items-center">
         <div className={`p-3 rounded-full ${color} text-white mr-4`}>{icon}</div>
         <div>
           <p className="text-gray-400 text-sm font-medium">{title}</p>
-          <p className="text-2xl font-bold text-white">{value}</p>
+          <p className="text-xl md:text-2xl font-bold text-white">{value}</p>
         </div>
       </div>
     </div>
@@ -55,20 +55,20 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <div className="pb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+      <div className="pb-4 md:pb-6">
+        <h1 className="text-xl md:text-2xl font-bold text-gray-800">Dashboard</h1>
         <p className="text-gray-600">Welcome back, {currentUser?.full_name}</p>
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="bg-black border border-gray-800 rounded-lg p-6 shadow-lg animate-pulse">
+            <div key={i} className="bg-black border border-gray-800 rounded-lg p-4 md:p-6 shadow-lg animate-pulse">
               <div className="flex items-center">
-                <div className="bg-gray-700 p-3 rounded-full mr-4 h-12 w-12"></div>
+                <div className="bg-gray-700 p-3 rounded-full mr-4 h-10 w-10 md:h-12 md:w-12"></div>
                 <div className="space-y-2">
-                  <div className="h-4 bg-gray-700 rounded w-24"></div>
-                  <div className="h-6 bg-gray-700 rounded w-16"></div>
+                  <div className="h-4 bg-gray-700 rounded w-16 md:w-24"></div>
+                  <div className="h-5 md:h-6 bg-gray-700 rounded w-12 md:w-16"></div>
                 </div>
               </div>
             </div>
@@ -76,14 +76,14 @@ const Dashboard = () => {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
             <StatCard
               title="Total Trips"
               value={stats.totalTrips}
               icon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
+                  className="h-5 w-5 md:h-6 md:w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -104,7 +104,7 @@ const Dashboard = () => {
               icon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
+                  className="h-5 w-5 md:h-6 md:w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -120,7 +120,7 @@ const Dashboard = () => {
               icon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
+                  className="h-5 w-5 md:h-6 md:w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -141,7 +141,7 @@ const Dashboard = () => {
               icon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
+                  className="h-5 w-5 md:h-6 md:w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -158,8 +158,8 @@ const Dashboard = () => {
             />
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-black border border-gray-800 rounded-lg shadow-lg overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+            <div className="bg-black border border-gray-800 rounded-lg shadow-lg overflow-hidden hover:border-amber-500 transition-all duration-300">
               <div className="p-4 border-b border-gray-800">
                 <h2 className="text-lg font-semibold text-white">Recent Trips</h2>
               </div>
@@ -169,16 +169,16 @@ const Dashboard = () => {
                     <table className="min-w-full divide-y divide-gray-800">
                       <thead>
                         <tr>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                          <th className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                             Pickup
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                          <th className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                             Dropoff
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                          <th className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                             Status
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                          <th className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                             Actions
                           </th>
                         </tr>
@@ -186,13 +186,13 @@ const Dashboard = () => {
                       <tbody className="divide-y divide-gray-800">
                         {recentTrips.map((trip) => (
                           <tr key={trip.id}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                            <td className="px-3 md:px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                               {trip.pickup_location}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                            <td className="px-3 md:px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                               {trip.dropoff_location}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
+                            <td className="px-3 md:px-6 py-4 whitespace-nowrap">
                               <span
                                 className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                                   trip.status === "completed"
@@ -203,7 +203,7 @@ const Dashboard = () => {
                                 {trip.status.charAt(0).toUpperCase() + trip.status.slice(1)}
                               </span>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                            <td className="px-3 md:px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                               <Link to={`/trips/${trip.id}`} className="text-amber-500 hover:text-amber-400">
                                 View
                               </Link>
@@ -219,11 +219,11 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="bg-black border border-gray-800 rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-black border border-gray-800 rounded-lg shadow-lg overflow-hidden hover:border-amber-500 transition-all duration-300">
               <div className="p-4 border-b border-gray-800">
                 <h2 className="text-lg font-semibold text-white">Cycle Status</h2>
               </div>
-              <div className="p-6">
+              <div className="p-4 md:p-6">
                 <div className="mb-4">
                   <div className="flex justify-between mb-1">
                     <span className="text-sm font-medium text-gray-300">Hours Used</span>
@@ -240,7 +240,7 @@ const Dashboard = () => {
                     ></div>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4 mt-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 md:mt-6">
                   <div className="bg-gray-800 p-4 rounded-lg">
                     <p className="text-gray-400 text-sm">Cycle Type</p>
                     <p className="text-white font-semibold">
