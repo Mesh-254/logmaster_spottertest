@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === "development") {
         role: "driver",
         current_cycle: {
           cycle_type: "70-8",
-          total_hours_used: 45.5,
+          total_hours_used: 50.5,
           last_reset: "2023-03-15T00:00:00Z",
         },
       },
@@ -49,8 +49,8 @@ if (process.env.NODE_ENV === "development") {
         totalTrips: 15,
         completedTrips: 12,
         ongoingTrips: 3,
-        cycleHoursUsed: 45.5,
-        cycleHoursRemaining: 24.5,
+        cycleHoursUsed: 80,
+        cycleHoursRemaining: 0,
       },
     },
     trips: {
