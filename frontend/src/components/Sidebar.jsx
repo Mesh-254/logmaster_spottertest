@@ -167,7 +167,7 @@ const Sidebar = ({ onStateChange, onMobileMenuClose }) => {
     >
       <div className="flex items-center justify-between p-4 border-b border-gray-800">
         {!collapsed && (
-          <h1 className="text-xl font-bold text-amber-500">FastTip</h1>
+          <h1 className="text-xl font-bold text-amber-500">LogMaster</h1>
         )}
         <button
           onClick={toggleSidebar}

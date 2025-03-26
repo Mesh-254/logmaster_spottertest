@@ -57,7 +57,7 @@ const Signup = () => {
       <div className="max-w-md w-full space-y-8 bg-black p-10 rounded-xl shadow-lg border border-gray-800">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-amber-500">
-            FastTip
+          LogMaster
           </h2>
           <p className="mt-2 text-center text-sm text-gray-400">
             Create your account
