@@ -1,0 +1,9 @@
+.venv
+.env
+.env*
+db.sqlite3
+migrations
+.migrations
+__pycache__
+*.pyc
+*.pyo
