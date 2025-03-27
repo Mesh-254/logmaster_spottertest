@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'logmaster',
     'corsheaders',
+    'rest_framework_simplejwt',
+
 
 ]
 
@@ -66,7 +68,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "https://yourdomain.com",
     "http://localhost:5173",
-    ]
+]
 
 
 TEMPLATES = [
@@ -144,3 +146,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ]
+}

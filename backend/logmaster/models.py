@@ -32,6 +32,7 @@ class User(AbstractUser):
         choices=[("driver", "Driver"), ("admin", "Admin")],
         default="driver"
     )
+    username = None  # Remove username to avoid unique constraint errors
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name']
     objects = CustomUserManager()
