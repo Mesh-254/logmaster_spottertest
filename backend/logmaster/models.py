@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.utils import timezone
 
 # ---------------------- User Model ---------------------- #
 
@@ -76,7 +77,6 @@ class Vehicle(models.Model):
         User, on_delete=models.CASCADE, related_name="vehicles")
     truck_number = models.CharField(max_length=50, unique=True, db_index=True)
     trailer_number = models.CharField(max_length=50, null=True, blank=True)
-    fuel_efficiency = models.FloatField()
 
     def __str__(self):
         return f"{self.truck_number} - {self.driver.full_name}"
@@ -94,10 +94,10 @@ class Trip(models.Model):
         Location, on_delete=models.CASCADE, related_name="pickups")
     dropoff_location = models.ForeignKey(
         Location, on_delete=models.CASCADE, related_name="dropoffs")
-    start_time = models.DateTimeField(db_index=True)
-    estimated_end_time = models.DateTimeField()
-    cycle_hours_used = models.FloatField()
-    distance = models.FloatField()
+    start_time = models.DateTimeField(db_index=True, default=timezone.now)
+    estimated_end_time = models.DateTimeField(null=True, blank=True, default=None)
+    cycle_hours_used = models.FloatField(null=True, blank=True, default=None)
+    distance = models.FloatField(null=True, blank=True, default=None)
     status = models.CharField(max_length=10, choices=[(
         "ongoing", "Ongoing"), ("completed", "Completed")], default="ongoing", db_index=True)
 
